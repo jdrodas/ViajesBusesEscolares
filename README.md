@@ -49,7 +49,7 @@ APIs REST desarrolladas como ejercicio demostrativo para el curso de **Tópicos 
 
 ### Origen de los datos
 
-Los datos utilizados para este proyecto son **datos sintéticos** que no corresponden a ninguna representación real de ningún recorrido, por lo tanto no se está mal manejo de datos reservados.
+Los datos utilizados para este proyecto son **datos sintéticos** que no corresponden a ninguna representación real de ningún recorrido, por lo tanto no se está incurriendo en mal manejo de datos reservados, personales o sensibles.
 
 
 ## Stack Tecnológico
