@@ -30,8 +30,8 @@ APIs REST desarrolladas como ejercicio demostrativo para el curso de **Tópicos 
 - `bus_id` (UUID): Identificador único del bus.
 - `turno` (TEXT): Identifica la jornada del día para el viaje.
 - `total_pasajeros` (INT): Cantidad de pasajeros transportados en el viaje.
-- `fecha_salida` (DATETIME): Fecha y hora del inicio del viaje.
-- `fecha_llegada` (DATETIME): Fecha y hora del finalización del viaje.
+- `fecha_salida` (TIMESTAMP): Fecha y hora del inicio del viaje.
+- `fecha_llegada` (TIMESTAMP): Fecha y hora del finalización del viaje.
 
 #### Buses
 

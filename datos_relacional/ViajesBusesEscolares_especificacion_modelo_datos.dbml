@@ -1,0 +1,41 @@
+// Scripts de clase - Marzo 9 de 2026  
+// Curso de Tópicos Avanzados de base de datos - UPB 202610
+// Juan Dario Rodas - juand.rodasm@upb.edu.co
+
+// Proyecto: Viajes Buses Escolares
+// Representación del modelo de datos en DBML
+
+
+Table "core"."buses" {
+  "id" uuid [pk, default: `gen_random_uuid()`]
+  "placa" text [not null]
+  "año_fabricacion" int [not null]
+}
+
+Table "core"."zonas" {
+  "id" uuid [pk, default: `gen_random_uuid()`]
+  "nombre" text [not null]
+}
+
+Table "core"."rutas" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "nombre" text [not null]
+  "distancia_kms" float [not null]
+  "zona_id" uuid [not null]
+}
+
+Table "core"."viajes" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "ruta_id" uuid [not null]
+  "bus_id" uuid [not null]
+  "turno" text [not null]
+  "total_pasajeros" int [not null]
+  "fecha_salida" timestamp [not null]
+  "fecha_llegada" timestamp [not null]
+}
+
+Ref:"core"."zonas"."id" < "core"."rutas"."zona_id"
+
+Ref:"core"."rutas"."id" < "core"."viajes"."ruta_id"
+
+Ref:"core"."buses"."id" < "core"."viajes"."bus_id"

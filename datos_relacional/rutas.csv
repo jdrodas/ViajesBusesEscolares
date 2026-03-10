@@ -1,0 +1,9 @@
+id;nombre;distancia_kms;zona_id
+02fe6a29-dfac-4a24-8495-c7c40041bf78;Escuela Primaria Centro;23.8;06a22f9d-cbc9-4091-a9fd-15f2c35201a3
+77973ae9-2990-4f55-bf7a-5b04398cbdb3;Preparatoria Central;10.1;3312b550-da1e-4ce6-8868-d2439a70f671
+4f6d4028-5d21-4955-8674-ee05e2a8d7d7;Colegio Sur Residencial;31.1;52ef2743-ce17-44e4-9614-fdd08e45b1c4
+82d8b8ca-61a7-4c4f-a4e2-bec14cdb1947;Secundaria Norte Industrial;22.5;3312b550-da1e-4ce6-8868-d2439a70f671
+6265f7d1-d50a-4958-adbd-068241f4276a;Instituto Este Comercial;18.2;c8f1331f-ff47-4922-afa4-5ce14601316a
+7ba05016-1579-41e0-b82e-f8269b155156;Colegio Zona Deportiva;32.7;8f259884-b78c-400f-a629-8c4b9a335598
+f557e38d-8c00-4692-9147-905ce01c6950;Escuela Rural Oeste;11.1;8f259884-b78c-400f-a629-8c4b9a335598
+1256dbd3-335b-440b-bd82-2d65f699eb05;Instituto Periférico;19.8;52ef2743-ce17-44e4-9614-fdd08e45b1c4
