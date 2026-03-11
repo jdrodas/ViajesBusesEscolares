@@ -154,3 +154,14 @@ from viajes v
     join zonas z on r.zona_id = z.id
     join buses b on v.bus_id = b.id
 );
+
+-- Vista: v_info_rutas
+create view v_info_rutas as (
+select
+    r.id ruta_id,
+    r.nombre ruta_nombre,
+    r.distancia_kms,
+    r.zona_id,
+    z.nombre zona_nombre
+from core.rutas r
+    join zonas z on r.zona_id = z.id);
