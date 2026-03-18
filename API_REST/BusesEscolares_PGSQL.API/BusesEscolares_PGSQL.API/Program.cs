@@ -1,9 +1,9 @@
 using Asp.Versioning;
 using BusesEscolares_PGSQL.API.DbContexts;
 using BusesEscolares_PGSQL.API.Interfaces;
+using BusesEscolares_PGSQL.API.Models;
 using BusesEscolares_PGSQL.API.Repositories;
 using BusesEscolares_PGSQL.API.Services;
-using BusesEscolares_PGSQL.API.Models;
 using Microsoft.OpenApi;
 
 
@@ -36,12 +36,16 @@ builder.Services.AddSingleton<PgsqlDbContext>();
 // ***************************************************************************
 
 builder.Services.AddScoped<IEstadisticaRepository, EstadisticaRepository>();
+builder.Services.AddScoped<IRutaRepository, RutaRepository>();
+builder.Services.AddScoped<IBusRepository, BusRepository>();
 
 // ***************************************************************************
 // --- Configuración de los servicios asociados  --
 // ***************************************************************************
 
 builder.Services.AddScoped<EstadisticaService>();
+builder.Services.AddScoped<RutaService>();
+builder.Services.AddScoped<BusService>();
 
 // Add services to the container.
 builder.Services.AddControllers()

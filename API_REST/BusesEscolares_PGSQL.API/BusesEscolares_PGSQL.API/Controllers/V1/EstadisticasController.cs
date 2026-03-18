@@ -1,6 +1,6 @@
 ﻿using Asp.Versioning;
-using Microsoft.AspNetCore.Mvc;
 using BusesEscolares_PGSQL.API.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BusesEscolares_PGSQL.API.Controllers.V1
 {
