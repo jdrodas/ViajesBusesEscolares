@@ -3,7 +3,6 @@ using BusesEscolares_PGSQL.API.Interfaces;
 using BusesEscolares_PGSQL.API.Models;
 using Dapper;
 using System.Data;
-using System.Drawing;
 
 namespace BusesEscolares_PGSQL.API.Repositories
 {
