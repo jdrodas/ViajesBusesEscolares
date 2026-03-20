@@ -38,6 +38,8 @@ builder.Services.AddSingleton<PgsqlDbContext>();
 builder.Services.AddScoped<IEstadisticaRepository, EstadisticaRepository>();
 builder.Services.AddScoped<IRutaRepository, RutaRepository>();
 builder.Services.AddScoped<IBusRepository, BusRepository>();
+builder.Services.AddScoped<IViajeRepository, ViajeRepository>();
+
 
 // ***************************************************************************
 // --- Configuración de los servicios asociados  --

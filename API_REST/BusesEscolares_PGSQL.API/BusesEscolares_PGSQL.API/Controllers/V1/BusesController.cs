@@ -47,5 +47,26 @@ namespace BusesEscolares_PGSQL.API.Controllers.V1
                 return NotFound($"Error de validación: {error.Message}");
             }
         }
+
+        [HttpGet("{busId:Guid}/viajes")]
+        public async Task<IActionResult> GetAssociatedTripsByIdAsync(Guid busId)
+        {
+            try
+            {
+                var losViajes = await _busService
+                    .GetAssociatedTripsByIdAsync(busId);
+
+                return Ok(losViajes);
+            }
+            catch (AppValidationException error)
+            {
+                return BadRequest(error.Message);
+            }
+            catch (EmptyCollectionException error)
+            {
+                return NotFound($"Error de validación: {error.Message}");
+            }
+        }
+
     }
 }

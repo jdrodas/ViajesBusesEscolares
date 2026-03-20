@@ -6,9 +6,11 @@ using System.Drawing;
 
 namespace BusesEscolares_PGSQL.API.Services
 {
-    public class BusService(IBusRepository busRepository)
+    public class BusService(IBusRepository busRepository,
+                            IViajeRepository viajeRepository)
     {
         private readonly IBusRepository _busRepository = busRepository;
+        private readonly IViajeRepository _viajeRepository = viajeRepository;
 
         public async Task<List<Bus>> GetAllAsync()
         {
@@ -30,6 +32,24 @@ namespace BusesEscolares_PGSQL.API.Services
                 throw new EmptyCollectionException($"Bus no encontrado con el Id {busId}");
 
             return unBus;
+        }
+
+        public async Task<List<Viaje>> GetAssociatedTripsByIdAsync(Guid busId)
+        {
+            Bus unBus = await _busRepository
+                .GetByIdAsync(busId);
+
+            if (unBus.Id == Guid.Empty)
+                throw new EmptyCollectionException($"Bus no encontrado con el Id {busId}");
+
+            //TODO: Agregar el repositorio de viajes y traer los viajes de este bus
+            var viajesAsociados = await _viajeRepository
+                .GetAssociatedTripsToBusByIdAsync(busId);
+
+            if (viajesAsociados.Count == 0)
+                throw new EmptyCollectionException($"No se encontraron viajes asociados al bus con placa {unBus.Placa}");
+
+            return viajesAsociados;
         }
     }
 }
