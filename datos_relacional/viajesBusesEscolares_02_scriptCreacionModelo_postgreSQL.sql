@@ -131,6 +131,10 @@ select distinct
 from core.datos_temporales;
 
 
+-- ****************************************
+-- Creación de Vistas
+-- ****************************************
+
 -- Vista v_info_viajes
 create or replace view v_info_viajes as
 (
@@ -165,3 +169,11 @@ select
     z.nombre zona_nombre
 from core.rutas r
     join zonas z on r.zona_id = z.id);
+
+
+-- ****************************************
+-- Creación de Indices
+-- ****************************************
+
+create index viajes_bus_ix on core.viajes (bus_id);
+create index viajes_ruta_ix on core.viajes (ruta_id);

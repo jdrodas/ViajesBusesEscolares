@@ -50,6 +50,7 @@ builder.Services.AddScoped<EstadisticaService>();
 builder.Services.AddScoped<RutaService>();
 builder.Services.AddScoped<BusService>();
 builder.Services.AddScoped<ZonaService>();
+builder.Services.AddScoped<ViajeService>();
 
 // Add services to the container.
 builder.Services.AddControllers()
