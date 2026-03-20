@@ -16,7 +16,7 @@ namespace BusesEscolares_PGSQL.API.Repositories
 
             string sentenciaSQL =
                 "SELECT DISTINCT r.id, r.nombre, r.distancia_kms distanciaKms, " +
-                "z.nombre zonaNombre " +
+                "r.zona_id zonaId, z.nombre zonaNombre " +
                 "FROM core.rutas r JOIN core.zonas z on r.zona_id = z.id " +
                 "ORDER BY nombre";
 
@@ -37,7 +37,7 @@ namespace BusesEscolares_PGSQL.API.Repositories
 
             string sentenciaSQL =
                 "SELECT DISTINCT r.id, r.nombre, r.distancia_kms distanciaKms, " +
-                "z.nombre zonaNombre " +
+                "r.zona_id zonaId, z.nombre zonaNombre " +
                 "FROM core.rutas r JOIN core.zonas z on r.zona_id = z.id " +
                 "WHERE r.id = @rutaId";
 

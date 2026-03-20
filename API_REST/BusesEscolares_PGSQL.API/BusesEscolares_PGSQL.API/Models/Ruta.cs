@@ -13,6 +13,9 @@ namespace BusesEscolares_PGSQL.API.Models
         [JsonPropertyName("distancia_kms")]
         public float? DistanciaKms { get; set; } = 0.0f;
 
+        [JsonPropertyName("zona_id")]
+        public Guid ZonaId { get; set; } = Guid.Empty;
+
         [JsonPropertyName("zona_nombre")]
         public string? ZonaNombre { get; set; } = string.Empty;
 

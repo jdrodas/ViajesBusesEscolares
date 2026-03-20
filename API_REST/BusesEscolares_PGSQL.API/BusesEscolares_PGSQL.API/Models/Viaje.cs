@@ -13,6 +13,12 @@ namespace BusesEscolares_PGSQL.API.Models
         [JsonPropertyName("ruta_nombre")]
         public string? RutaNombre { get; set; } = string.Empty;
 
+        [JsonPropertyName("zona_id")]
+        public Guid zonaId { get; set; } = Guid.Empty;
+
+        [JsonPropertyName("zona_nombre")]
+        public string? ZonaNombre { get; set; } = string.Empty;
+
         [JsonPropertyName("bus_id")]
         public Guid BusId { get; set; } = Guid.Empty;
 

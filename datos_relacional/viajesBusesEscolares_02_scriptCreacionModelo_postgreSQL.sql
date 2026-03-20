@@ -177,3 +177,7 @@ from core.rutas r
 
 create index viajes_bus_ix on core.viajes (bus_id);
 create index viajes_ruta_ix on core.viajes (ruta_id);
+
+create index rutas_zona_ix on core.rutas (zona_id);
+
+

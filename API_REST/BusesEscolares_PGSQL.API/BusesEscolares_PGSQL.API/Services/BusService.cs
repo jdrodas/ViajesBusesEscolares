@@ -41,7 +41,6 @@ namespace BusesEscolares_PGSQL.API.Services
             if (unBus.Id == Guid.Empty)
                 throw new EmptyCollectionException($"Bus no encontrado con el Id {busId}");
 
-            //TODO: Agregar el repositorio de viajes y traer los viajes de este bus
             var viajesAsociados = await _viajeRepository
                 .GetAssociatedTripsToBusByIdAsync(busId);
 

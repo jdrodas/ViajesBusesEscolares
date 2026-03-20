@@ -9,7 +9,7 @@ namespace BusesEscolares_PGSQL.API.Repositories
     public class ViajeRepository(PgsqlDbContext unContexto) : IViajeRepository
     {
         private readonly PgsqlDbContext contextoDB = unContexto;
-        
+
         public async Task<List<Viaje>> GetAllAsync()
         {
             var conexion = contextoDB.CreateConnection();
@@ -17,7 +17,7 @@ namespace BusesEscolares_PGSQL.API.Repositories
             string sentenciaSQL =
                 "SELECT v.viaje_id id, v.ruta_id rutaId, v.bus_id busId, " +
                 "v.ruta_nombre rutaNombre, v.bus_placa busPlaca, v.viaje_turno turno, " +
-                "v.total_pasajeros totalPasajeros, " +
+                "v.total_pasajeros totalPasajeros, v.zona_id zonaId, v.zona_nombre zonaNombre, " +
                 "to_char(v.fecha_salida,'DD/MM/YYYY HH24:MI:SS') fechaSalida, " +
                 "to_char(v.fecha_llegada,'DD/MM/YYYY HH24:MI:SS') fechaLlegada " +
                 "FROM core.v_info_viajes v ";
@@ -30,7 +30,7 @@ namespace BusesEscolares_PGSQL.API.Repositories
 
         public async Task<Viaje> GetByIdAsync(Guid viajeId)
         {
-            Viaje unViaje= new();
+            Viaje unViaje = new();
             var conexion = contextoDB.CreateConnection();
 
             DynamicParameters parametrosSentencia = new();
@@ -40,7 +40,7 @@ namespace BusesEscolares_PGSQL.API.Repositories
             string sentenciaSQL =
                 "SELECT v.viaje_id id, v.ruta_id rutaId, v.bus_id busId, " +
                 "v.ruta_nombre rutaNombre, v.bus_placa busPlaca, v.viaje_turno turno, " +
-                "v.total_pasajeros totalPasajeros, " +
+                "v.total_pasajeros totalPasajeros, v.zona_id zonaId, v.zona_nombre zonaNombre, " +
                 "to_char(v.fecha_salida,'DD/MM/YYYY HH24:MI:SS') fechaSalida, " +
                 "to_char(v.fecha_llegada,'DD/MM/YYYY HH24:MI:SS') fechaLlegada " +
                 "FROM core.v_info_viajes v " +
@@ -66,11 +66,59 @@ namespace BusesEscolares_PGSQL.API.Repositories
             string sentenciaSQL =
                 "SELECT v.viaje_id id, v.ruta_id rutaId, v.bus_id busId, " +
                 "v.ruta_nombre rutaNombre, v.bus_placa busPlaca, v.viaje_turno turno, " +
-                "v.total_pasajeros totalPasajeros, " +
+                "v.total_pasajeros totalPasajeros, v.zona_id zonaId, v.zona_nombre zonaNombre, " +
                 "to_char(v.fecha_salida,'DD/MM/YYYY HH24:MI:SS') fechaSalida, " +
                 "to_char(v.fecha_llegada,'DD/MM/YYYY HH24:MI:SS') fechaLlegada " +
                 "FROM core.v_info_viajes v " +
                 "WHERE v.bus_id = @busId " +
+                "ORDER BY v.ruta_nombre";
+
+            var resultadoViajes = await conexion
+                .QueryAsync<Viaje>(sentenciaSQL, parametrosSentencia);
+
+            return [.. resultadoViajes];
+        }
+
+        public async Task<List<Viaje>> GetAssociatedTripsToRouteByIdAsync(Guid rutaId)
+        {
+            var conexion = contextoDB.CreateConnection();
+
+            DynamicParameters parametrosSentencia = new();
+            parametrosSentencia.Add("@rutaId", rutaId,
+                                    DbType.Guid, ParameterDirection.Input);
+
+            string sentenciaSQL =
+                "SELECT v.viaje_id id, v.ruta_id rutaId, v.bus_id busId, " +
+                "v.ruta_nombre rutaNombre, v.bus_placa busPlaca, v.viaje_turno turno, " +
+                "v.total_pasajeros totalPasajeros, v.zona_id zonaId, v.zona_nombre zonaNombre, " +
+                "to_char(v.fecha_salida,'DD/MM/YYYY HH24:MI:SS') fechaSalida, " +
+                "to_char(v.fecha_llegada,'DD/MM/YYYY HH24:MI:SS') fechaLlegada " +
+                "FROM core.v_info_viajes v " +
+                "WHERE v.ruta_id = @rutaId " +
+                "ORDER BY v.bus_placa";
+
+            var resultadoViajes = await conexion
+                .QueryAsync<Viaje>(sentenciaSQL, parametrosSentencia);
+
+            return [.. resultadoViajes];
+        }
+
+        public async Task<List<Viaje>> GetAssociatedTripsToZoneByIdAsync(Guid zonaId)
+        {
+            var conexion = contextoDB.CreateConnection();
+
+            DynamicParameters parametrosSentencia = new();
+            parametrosSentencia.Add("@zonaId", zonaId,
+                                    DbType.Guid, ParameterDirection.Input);
+
+            string sentenciaSQL =
+                "SELECT v.viaje_id id, v.ruta_id rutaId, v.bus_id busId, " +
+                "v.ruta_nombre rutaNombre, v.bus_placa busPlaca, v.viaje_turno turno, " +
+                "v.total_pasajeros totalPasajeros, v.zona_id zonaId, v.zona_nombre zonaNombre, " +
+                "to_char(v.fecha_salida,'DD/MM/YYYY HH24:MI:SS') fechaSalida, " +
+                "to_char(v.fecha_llegada,'DD/MM/YYYY HH24:MI:SS') fechaLlegada " +
+                "FROM core.v_info_viajes v " +
+                "WHERE v.zona_id = @zonaId " +
                 "ORDER BY v.ruta_nombre";
 
             var resultadoViajes = await conexion
