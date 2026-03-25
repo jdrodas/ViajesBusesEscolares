@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using BusesEscolares_PGSQL.API.Exceptions;
 using BusesEscolares_PGSQL.API.Services;
+using BusesEscolares_PGSQL.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BusesEscolares_PGSQL.API.Controllers.V1
@@ -13,18 +14,22 @@ namespace BusesEscolares_PGSQL.API.Controllers.V1
         private readonly ZonaService _zonaService = zonaService;
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync([FromQuery] ZonaParametrosConsulta parametrosConsulta)
         {
             try
             {
                 var lasZonas = await _zonaService
-                .GetAllAsync();
+                .GetAllAsync(parametrosConsulta);
 
                 return Ok(lasZonas);
             }
             catch (EmptyCollectionException error)
             {
                 return NotFound($"Error de validación: {error.Message}");
+            }
+            catch (AppValidationException error)
+            {
+                return BadRequest($"Error de validación: {error.Message}");
             }
         }
 

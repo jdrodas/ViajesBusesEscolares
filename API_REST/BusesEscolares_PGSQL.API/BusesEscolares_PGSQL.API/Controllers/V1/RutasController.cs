@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using BusesEscolares_PGSQL.API.Exceptions;
+using BusesEscolares_PGSQL.API.Models;
 using BusesEscolares_PGSQL.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,18 +14,22 @@ namespace BusesEscolares_PGSQL.API.Controllers.V1
         private readonly RutaService _rutaService = rutaService;
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync([FromQuery] RutaParametrosConsulta parametrosConsulta)
         {
             try
             {
                 var lasRutas = await _rutaService
-                .GetAllAsync();
+                .GetAllAsync(parametrosConsulta);
 
                 return Ok(lasRutas);
             }
             catch (EmptyCollectionException error)
             {
                 return NotFound($"Error de validación: {error.Message}");
+            }
+            catch (AppValidationException error)
+            {
+                return BadRequest($"Error de validación: {error.Message}");
             }
         }
 

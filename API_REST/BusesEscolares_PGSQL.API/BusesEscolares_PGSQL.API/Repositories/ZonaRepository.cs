@@ -10,19 +10,43 @@ namespace BusesEscolares_PGSQL.API.Repositories
     {
         private readonly PgsqlDbContext contextoDB = unContexto;
 
-        public async Task<List<Zona>> GetAllAsync()
+        public async Task<List<Zona>> GetAllAsync(ZonaParametrosConsulta parametrosConsulta)
         {
             var conexion = contextoDB.CreateConnection();
+
+            //parametros de paginacion
+            var desfase = (parametrosConsulta.Pagina - 1) * parametrosConsulta.ElementosPorPagina;
+
+            DynamicParameters parametrosSentencia = new();
+            parametrosSentencia.Add("@elementosPagina", parametrosConsulta.ElementosPorPagina,
+                                    DbType.Int32, ParameterDirection.Input);
+            parametrosSentencia.Add("@desfase", desfase,
+                                    DbType.Int32, ParameterDirection.Input);
 
             string sentenciaSQL =
                 "SELECT DISTINCT id, nombre " +
                 "FROM core.zonas " +
-                "ORDER BY nombre";
+                "ORDER BY nombre " +
+                "LIMIT @elementosPagina " +
+                "OFFSET @desfase";
 
             var resultadoZonas = await conexion
-                .QueryAsync<Zona>(sentenciaSQL, new DynamicParameters());
+                .QueryAsync<Zona>(sentenciaSQL, parametrosSentencia);
 
             return [.. resultadoZonas];
+        }
+
+        public async Task<int> GetTotalAsync()
+        {
+            var conexion = contextoDB.CreateConnection();
+
+            string sentenciaSQL =
+                "SELECT COUNT(id) total FROM core.zonas";
+
+            var totalZonas = await conexion
+                .QueryFirstAsync<int>(sentenciaSQL, new DynamicParameters());
+
+            return totalZonas;
         }
 
         public async Task<Zona> GetByIdAsync(Guid zonaId)

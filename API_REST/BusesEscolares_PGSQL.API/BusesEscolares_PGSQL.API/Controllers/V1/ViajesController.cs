@@ -29,7 +29,7 @@ namespace BusesEscolares_PGSQL.API.Controllers.V1
             }
             catch (AppValidationException error)
             {
-                return NotFound($"Error de validación: {error.Message}");
+                return BadRequest($"Error de validación: {error.Message}");
             }
         }
 

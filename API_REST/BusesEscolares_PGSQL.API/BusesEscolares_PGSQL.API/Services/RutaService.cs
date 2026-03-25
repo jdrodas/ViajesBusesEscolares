@@ -9,15 +9,35 @@ namespace BusesEscolares_PGSQL.API.Services
     {
         private readonly IRutaRepository _rutaRepository = rutaRepository;
         private readonly IViajeRepository _viajeRepository = viajeRepository;
-        public async Task<List<Ruta>> GetAllAsync()
+        public async Task<RutaRespuesta> GetAllAsync(RutaParametrosConsulta parametrosConsulta)
         {
+            int totalElementos = await _rutaRepository
+                .GetTotalAsync();
+
+            int totalPaginas = (int)Math.Ceiling((double)totalElementos / parametrosConsulta.ElementosPorPagina);
+
+            if (parametrosConsulta.Pagina <= 0)
+                throw new AppValidationException($"El número de la página debe ser un valor positivo.");
+
+            if (parametrosConsulta.Pagina > totalPaginas)
+                throw new AppValidationException($"La página solicitada No. {parametrosConsulta.Pagina} excede el número total " +
+                    $"de página de {totalPaginas} con una cantidad de elementos por página de {parametrosConsulta.ElementosPorPagina}");
+
+            if (parametrosConsulta.ElementosPorPagina <= 0)
+                throw new AppValidationException($"El número de elementos por página debe ser un valor positivo.");
+
             var lasRutas = await _rutaRepository
-                .GetAllAsync();
+                .GetAllAsync(parametrosConsulta);
 
             if (lasRutas.Count == 0)
                 throw new EmptyCollectionException("No se encontraron rutas registradas");
 
-            return lasRutas;
+            var respuestaRutas = BuildRouteResponse(lasRutas,
+                                                    parametrosConsulta,
+                                                    totalElementos,
+                                                    totalPaginas);
+
+            return respuestaRutas;
         }
 
         public async Task<Ruta> GetByIdAsync(Guid rutaId)
@@ -46,6 +66,24 @@ namespace BusesEscolares_PGSQL.API.Services
                 throw new EmptyCollectionException($"No se encontraron viajes asociados a la ruta {unaRuta.Nombre}");
 
             return viajesAsociados;
+        }
+
+        private static RutaRespuesta BuildRouteResponse(List<Ruta> lasRutas,
+                                                        RutaParametrosConsulta parametrosConsulta,
+                                                        int totalElementos,
+                                                        int totalPaginas)
+        {
+            var respuestaRutas = new RutaRespuesta
+            {
+                Tipo = "Rutas",
+                TotalElementos = totalElementos,
+                Pagina = parametrosConsulta.Pagina,
+                ElementosPorPagina = parametrosConsulta.ElementosPorPagina,
+                TotalPaginas = totalPaginas,
+                Data = [.. lasRutas]
+            };
+
+            return respuestaRutas;
         }
     }
 }
