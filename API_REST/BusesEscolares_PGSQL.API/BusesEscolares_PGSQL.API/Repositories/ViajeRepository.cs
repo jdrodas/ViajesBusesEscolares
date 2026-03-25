@@ -10,22 +10,47 @@ namespace BusesEscolares_PGSQL.API.Repositories
     {
         private readonly PgsqlDbContext contextoDB = unContexto;
 
-        public async Task<List<Viaje>> GetAllAsync()
+        public async Task<List<Viaje>> GetAllAsync(ViajeParametrosConsulta parametrosConsulta)
         {
             var conexion = contextoDB.CreateConnection();
 
+            //parametros de paginacion
+            var desfase = (parametrosConsulta.Pagina - 1) * parametrosConsulta.ElementosPorPagina;
+
+            DynamicParameters parametrosSentencia = new();
+            parametrosSentencia.Add("@elementosPagina", parametrosConsulta.ElementosPorPagina,
+                                    DbType.Int32, ParameterDirection.Input);
+            parametrosSentencia.Add("@desfase", desfase,
+                                    DbType.Int32, ParameterDirection.Input);
+
             string sentenciaSQL =
-                "SELECT v.viaje_id id, v.ruta_id rutaId, v.bus_id busId, " +
+                @"SELECT v.viaje_id id, v.ruta_id rutaId, v.bus_id busId, " +
                 "v.ruta_nombre rutaNombre, v.bus_placa busPlaca, v.viaje_turno turno, " +
                 "v.total_pasajeros totalPasajeros, v.zona_id zonaId, v.zona_nombre zonaNombre, " +
                 "to_char(v.fecha_salida,'DD/MM/YYYY HH24:MI:SS') fechaSalida, " +
                 "to_char(v.fecha_llegada,'DD/MM/YYYY HH24:MI:SS') fechaLlegada " +
-                "FROM core.v_info_viajes v ";
+                "FROM core.v_info_viajes v " +
+                "ORDER BY v.fecha_salida " +
+                "LIMIT @elementosPagina " +
+                "OFFSET @desfase";
 
             var resultadoViajes = await conexion
-                .QueryAsync<Viaje>(sentenciaSQL, new DynamicParameters());
+                .QueryAsync<Viaje>(sentenciaSQL, parametrosSentencia);
 
             return [.. resultadoViajes];
+        }
+
+        public async Task<int> GetTotalAsync()
+        {
+            var conexion = contextoDB.CreateConnection();
+
+            string sentenciaSQL =
+                "SELECT COUNT(id) total FROM core.viajes";
+
+            var totalViajes = await conexion
+                .QueryFirstAsync<int>(sentenciaSQL, new DynamicParameters());
+
+            return totalViajes;
         }
 
         public async Task<Viaje> GetByIdAsync(Guid viajeId)
