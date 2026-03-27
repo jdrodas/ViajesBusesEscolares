@@ -13,10 +13,10 @@
         public int ElementosPorPagina
         {
             get
-            { 
-                return _elementosPorPagina; 
+            {
+                return _elementosPorPagina;
             }
-            set 
+            set
             {
                 if (value > MaximoElementosPorPagina)
                     _elementosPorPagina = MaximoElementosPorPagina;

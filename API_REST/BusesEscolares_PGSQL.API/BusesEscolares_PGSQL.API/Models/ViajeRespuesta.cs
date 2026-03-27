@@ -2,7 +2,7 @@
 
 namespace BusesEscolares_PGSQL.API.Models
 {
-    public class ViajeRespuesta:BaseRespuesta
+    public class ViajeRespuesta : BaseRespuesta
     {
         [JsonPropertyName("data")]
         public List<Viaje> Data { get; set; } = [];

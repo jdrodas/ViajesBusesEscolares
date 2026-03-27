@@ -14,14 +14,14 @@ namespace BusesEscolares_PGSQL.API.Services
 
             int totalPaginas = (int)Math.Ceiling((double)totalElementos / parametrosConsulta.ElementosPorPagina);
 
-            if(parametrosConsulta.Pagina<=0)
+            if (parametrosConsulta.Pagina <= 0)
                 throw new AppValidationException($"El número de la página debe ser un valor positivo.");
 
             if (parametrosConsulta.Pagina > totalPaginas)
                 throw new AppValidationException($"La página solicitada No. {parametrosConsulta.Pagina} excede el número total " +
                     $"de página de {totalPaginas} con una cantidad de elementos por página de {parametrosConsulta.ElementosPorPagina}");
 
-            if (parametrosConsulta.ElementosPorPagina<=0)
+            if (parametrosConsulta.ElementosPorPagina <= 0)
                 throw new AppValidationException($"El número de elementos por página debe ser un valor positivo.");
 
             var losViajes = await _viajeRepository
@@ -49,8 +49,8 @@ namespace BusesEscolares_PGSQL.API.Services
             return unViaje;
         }
 
-        private static ViajeRespuesta BuildTripResponse(List<Viaje> losViajes, 
-                                                        ViajeParametrosConsulta parametrosConsulta, 
+        private static ViajeRespuesta BuildTripResponse(List<Viaje> losViajes,
+                                                        ViajeParametrosConsulta parametrosConsulta,
                                                         int totalElementos,
                                                         int totalPaginas)
         {
@@ -58,7 +58,7 @@ namespace BusesEscolares_PGSQL.API.Services
             {
                 Tipo = "Viajes",
                 TotalElementos = totalElementos,
-                Pagina = parametrosConsulta.Pagina, 
+                Pagina = parametrosConsulta.Pagina,
                 ElementosPorPagina = parametrosConsulta.ElementosPorPagina,
                 TotalPaginas = totalPaginas,
                 Data = [.. losViajes]

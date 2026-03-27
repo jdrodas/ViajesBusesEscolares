@@ -3,6 +3,7 @@ using BusesEscolares_PGSQL.API.Exceptions;
 using BusesEscolares_PGSQL.API.Models;
 using BusesEscolares_PGSQL.API.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
 
 namespace BusesEscolares_PGSQL.API.Controllers.V1
 {
@@ -73,5 +74,72 @@ namespace BusesEscolares_PGSQL.API.Controllers.V1
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync(Bus unBus)
+        {
+            try
+            {
+                var busCreado = await _busService
+                    .CreateAsync(unBus);
+
+                return Ok(busCreado);
+            }
+            catch (AppValidationException error)
+            {
+                return BadRequest($"Error de validación: {error.Message}");
+            }
+            catch (DbOperationException error)
+            {
+                return BadRequest($"Error de operacion en DB: {error.Message}");
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync(Bus unBus)
+        {
+            try
+            {
+                var busActualizado = await _busService
+                    .UpdateAsync(unBus);
+
+                return Ok(busActualizado);
+            }
+            catch (AppValidationException error)
+            {
+                return BadRequest($"Error de validación: {error.Message}");
+            }
+            catch (EmptyCollectionException error)
+            {
+                return NotFound($"Error de validación: {error.Message}");
+            }
+            catch (DbOperationException error)
+            {
+                return BadRequest($"Error de operacion en DB: {error.Message}");
+            }
+        }
+
+        [HttpDelete("{busId:Guid}")]
+        public async Task<IActionResult> RemoveAsync(Guid busId)
+        {
+            try
+            {
+                var placaBusBorrado = await _busService
+                    .RemoveAsync(busId);
+
+                return Ok($"El bus de placa {placaBusBorrado} fue eliminado correctamente!");
+            }
+            catch (AppValidationException error)
+            {
+                return BadRequest($"Error de validación: {error.Message}");
+            }
+            catch (EmptyCollectionException error)
+            {
+                return NotFound($"Error de validación: {error.Message}");
+            }
+            catch (DbOperationException error)
+            {
+                return BadRequest($"Error de operacion en DB: {error.Message}");
+            }
+        }
     }
 }

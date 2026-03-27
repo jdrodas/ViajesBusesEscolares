@@ -1,7 +1,6 @@
 ﻿using BusesEscolares_PGSQL.API.Exceptions;
 using BusesEscolares_PGSQL.API.Interfaces;
 using BusesEscolares_PGSQL.API.Models;
-using BusesEscolares_PGSQL.API.Repositories;
 
 namespace BusesEscolares_PGSQL.API.Services
 {

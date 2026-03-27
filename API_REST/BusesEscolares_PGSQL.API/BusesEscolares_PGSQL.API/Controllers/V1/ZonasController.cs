@@ -1,7 +1,7 @@
 ﻿using Asp.Versioning;
 using BusesEscolares_PGSQL.API.Exceptions;
-using BusesEscolares_PGSQL.API.Services;
 using BusesEscolares_PGSQL.API.Models;
+using BusesEscolares_PGSQL.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BusesEscolares_PGSQL.API.Controllers.V1
