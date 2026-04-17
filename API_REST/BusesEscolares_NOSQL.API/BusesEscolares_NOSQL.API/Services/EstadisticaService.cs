@@ -5,7 +5,7 @@ namespace BusesEscolares_NOSQL.API.Services
 {
     public class EstadisticaService(IEstadisticaRepository estadisticaRepository)
     {
-    private readonly IEstadisticaRepository _estadisticaRepository = estadisticaRepository;
+        private readonly IEstadisticaRepository _estadisticaRepository = estadisticaRepository;
 
         public async Task<Estadistica> GetAllAsync()
         {

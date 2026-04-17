@@ -21,6 +21,7 @@ builder.Services.AddSingleton<MongoDbContext>();
 
 builder.Services.AddScoped<IEstadisticaRepository, EstadisticaRepository>();
 builder.Services.AddScoped<IBusRepository, BusRepository>();
+builder.Services.AddScoped<IViajeRepository, ViajeRepository>();
 
 // ***************************************************************************
 // --- Configuraci�n de los servicios asociados  --
