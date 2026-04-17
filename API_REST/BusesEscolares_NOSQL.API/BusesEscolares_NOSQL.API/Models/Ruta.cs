@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace BusesEscolares_NOSQL.API.Models
 {
+    //TODO: Actualizar el modelo de datos NoSQL en el repo
     public class Ruta
     {
 
@@ -22,13 +23,15 @@ namespace BusesEscolares_NOSQL.API.Models
         [BsonRepresentation(BsonType.Double)]
         public double? DistanciaKms { get; set; } = 0.0d;
 
+        //TODO: Mapear el atributo zona_id con el documento
         [JsonPropertyName("zona_id")]
         [BsonElement("zona_id")]
         [BsonRepresentation(BsonType.String)]
         public string? ZonaId { get; set; } = string.Empty;
 
+        //TODO: Mapear el atributo zona_nombre con el documento
         [JsonPropertyName("zona_nombre")]
-        [BsonElement("zona_nombre")]
+        [BsonElement("zona")]
         [BsonRepresentation(BsonType.String)]
         public string? ZonaNombre { get; set; } = string.Empty;
 

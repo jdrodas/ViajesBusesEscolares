@@ -40,5 +40,21 @@ namespace BusesEscolares_NOSQL.API.Repositories
 
             return losViajes;
         }
+
+        public async Task<List<Viaje>> GetAssociatedTripsToRouteByIdAsync(string rutaId)
+        {
+            var conexion = contextoDB
+                            .CreateConnection();
+
+            var coleccionViajes = conexion
+                .GetCollection<Viaje>(contextoDB.ConfiguracionColecciones.ColeccionViajes);
+
+            var losViajes = await coleccionViajes
+                .Find(viaje => viaje.RutaId == rutaId)
+                .SortBy(viaje => viaje.FechaSalida)
+                .ToListAsync();
+
+            return losViajes;
+        }
     }
 }

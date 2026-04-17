@@ -31,6 +31,14 @@ namespace BusesEscolares_NOSQL.API.Repositories
 
             unaEstadistica.Rutas = totalRutas;
 
+            var coleccionViajes = conexion
+                .GetCollection<Viaje>(contextoDB.ConfiguracionColecciones.ColeccionViajes);
+
+            var totalViajes = await coleccionViajes
+                .EstimatedDocumentCountAsync();
+
+            unaEstadistica.Viajes = totalViajes;
+
             return unaEstadistica;
         }
     }

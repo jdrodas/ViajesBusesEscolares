@@ -21,6 +21,8 @@ builder.Services.AddSingleton<MongoDbContext>();
 
 builder.Services.AddScoped<IEstadisticaRepository, EstadisticaRepository>();
 builder.Services.AddScoped<IBusRepository, BusRepository>();
+builder.Services.AddScoped<IRutaRepository, RutaRepository>();
+builder.Services.AddScoped<IZonaRepository, ZonaRepository>();
 builder.Services.AddScoped<IViajeRepository, ViajeRepository>();
 
 // ***************************************************************************
@@ -29,6 +31,7 @@ builder.Services.AddScoped<IViajeRepository, ViajeRepository>();
 
 builder.Services.AddScoped<EstadisticaService>();
 builder.Services.AddScoped<BusService>();
+builder.Services.AddScoped<RutaService>();
 
 // Add services to the container.
 builder.Services.AddControllers()
