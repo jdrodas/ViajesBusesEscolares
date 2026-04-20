@@ -1,5 +1,5 @@
+using BusesEscolares_NOSQL.API.Interfaces;
 using BusesEscolares_NOSQL.API.Models;
-using BusesEscolares_NOSQL.API.Repositories;
 
 namespace BusesEscolares_NOSQL.API.Services
 {

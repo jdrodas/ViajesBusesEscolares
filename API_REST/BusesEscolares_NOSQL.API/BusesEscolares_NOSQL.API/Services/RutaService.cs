@@ -33,6 +33,23 @@ namespace BusesEscolares_NOSQL.API.Services
             return unaRuta;
         }
 
+        public async Task<List<Viaje>> GetAssociatedTripsByIdAsync(string rutaId)
+        {
+            Ruta unaRuta = await _rutaRepository
+                .GetByIdAsync(rutaId);
+
+            if (unaRuta.Id == string.Empty)
+                throw new EmptyCollectionException($"Ruta no encontrada con el Id {rutaId}");
+
+            var viajesAsociados = await _viajeRepository
+                .GetAssociatedTripsToRouteByIdAsync(rutaId);
+
+            if (viajesAsociados.Count == 0)
+                throw new EmptyCollectionException($"No se encontraron viajes asociados a la ruta con nombre {unaRuta.Nombre}");
+
+            return viajesAsociados;
+        }
+
         public async Task<Ruta> CreateAsync(Ruta unaRuta)
         {
             unaRuta.Nombre = unaRuta.Nombre!.Trim();
@@ -50,6 +67,7 @@ namespace BusesEscolares_NOSQL.API.Services
                 throw new EmptyCollectionException($"Zona para la ruta no encontrada con el nombre {unaRuta.ZonaNombre}");
 
             unaRuta.ZonaId = zonaExistente.Id;
+            unaRuta.ZonaNombre = zonaExistente.Nombre;
 
             var rutaExistente = await _rutaRepository
                 .GetByDetailsAsync(unaRuta);
@@ -95,6 +113,7 @@ namespace BusesEscolares_NOSQL.API.Services
                 throw new EmptyCollectionException($"Zona para la ruta no encontrada con el nombre {unaRuta.ZonaNombre}");
 
             unaRuta.ZonaId = zonaExistente.Id;
+            unaRuta.ZonaNombre = zonaExistente.Nombre;
 
             var rutaExistente = await _rutaRepository
                 .GetByIdAsync(unaRuta.Id!);
@@ -155,8 +174,6 @@ namespace BusesEscolares_NOSQL.API.Services
 
             return nombreRutaEliminada;
         }
-
-
 
         private static string EvaluateRouteDetailsAsync(Ruta unaRuta)
         {

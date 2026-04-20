@@ -1,0 +1,30 @@
+[{
+  "_id": {
+    "$oid": "69e55dc58f30b3e166955a64"
+  },
+  "nombre": "centro"
+},
+{
+  "_id": {
+    "$oid": "69e55dc58f30b3e166955a65"
+  },
+  "nombre": "este"
+},
+{
+  "_id": {
+    "$oid": "69e55dc58f30b3e166955a66"
+  },
+  "nombre": "norte"
+},
+{
+  "_id": {
+    "$oid": "69e55dc58f30b3e166955a67"
+  },
+  "nombre": "oeste"
+},
+{
+  "_id": {
+    "$oid": "69e55dc58f30b3e166955a68"
+  },
+  "nombre": "sur"
+}]

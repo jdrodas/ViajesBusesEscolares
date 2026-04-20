@@ -57,7 +57,7 @@ namespace BusesEscolares_NOSQL.API.Repositories
             var builder = Builders<Bus>.Filter;
             var filtro = builder.And(
                 builder.Regex(bus => bus.Placa, $"/^{unBus.Placa}$/i"),
-                builder.Regex(bus => bus.AñoFabricacion, $"/^{unBus.AñoFabricacion}$/i")
+                builder.Eq(bus => bus.AñoFabricacion, unBus.AñoFabricacion)
                 );
 
             var resultado = await coleccionBuses

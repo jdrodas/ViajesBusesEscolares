@@ -1,0 +1,99 @@
+[{
+  "_id": {
+    "$oid": "69e55e148f30b3e166955a75"
+  },
+  "distancia_kms": 32.7,
+  "zona_nombre": "centro",
+  "zona_id": {
+    "$oid": "69e55dc58f30b3e166955a64"
+  },
+  "nombre": "Colegio Zona Deportiva"
+},
+{
+  "_id": {
+    "$oid": "69e55e148f30b3e166955a76"
+  },
+  "distancia_kms": 11.1,
+  "zona_nombre": "centro",
+  "zona_id": {
+    "$oid": "69e55dc58f30b3e166955a64"
+  },
+  "nombre": "Escuela Rural Oeste"
+},
+{
+  "_id": {
+    "$oid": "69e55e148f30b3e166955a77"
+  },
+  "distancia_kms": 27.6,
+  "zona_nombre": "centro",
+  "zona_id": {
+    "$oid": "69e55dc58f30b3e166955a64"
+  },
+  "nombre": "Transversal Interna Metropolitana"
+},
+{
+  "_id": {
+    "$oid": "69e55e148f30b3e166955a78"
+  },
+  "distancia_kms": 18.2,
+  "zona_nombre": "este",
+  "zona_id": {
+    "$oid": "69e55dc58f30b3e166955a65"
+  },
+  "nombre": "Instituto Este Comercial"
+},
+{
+  "_id": {
+    "$oid": "69e55e148f30b3e166955a79"
+  },
+  "distancia_kms": 10.1,
+  "zona_nombre": "norte",
+  "zona_id": {
+    "$oid": "69e55dc58f30b3e166955a66"
+  },
+  "nombre": "Preparatoria Central"
+},
+{
+  "_id": {
+    "$oid": "69e55e148f30b3e166955a7a"
+  },
+  "distancia_kms": 22.5,
+  "zona_nombre": "norte",
+  "zona_id": {
+    "$oid": "69e55dc58f30b3e166955a66"
+  },
+  "nombre": "Secundaria Norte Industrial"
+},
+{
+  "_id": {
+    "$oid": "69e55e148f30b3e166955a7b"
+  },
+  "distancia_kms": 31.1,
+  "zona_nombre": "oeste",
+  "zona_id": {
+    "$oid": "69e55dc58f30b3e166955a67"
+  },
+  "nombre": "Colegio Sur Residencial"
+},
+{
+  "_id": {
+    "$oid": "69e55e148f30b3e166955a7c"
+  },
+  "distancia_kms": 19.8,
+  "zona_nombre": "oeste",
+  "zona_id": {
+    "$oid": "69e55dc58f30b3e166955a67"
+  },
+  "nombre": "Instituto Periférico"
+},
+{
+  "_id": {
+    "$oid": "69e55e148f30b3e166955a7d"
+  },
+  "distancia_kms": 23.8,
+  "zona_nombre": "sur",
+  "zona_id": {
+    "$oid": "69e55dc58f30b3e166955a68"
+  },
+  "nombre": "Escuela Primaria Centro"
+}]

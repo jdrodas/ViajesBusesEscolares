@@ -53,6 +53,26 @@ namespace BusesEscolares_NOSQL.API.Controllers.V1
             }
         }
 
+        [HttpGet("{rutaId:length(24)}/viajes")]
+        public async Task<IActionResult> GetAssociatedTripsByIdAsync(string rutaId)
+        {
+            try
+            {
+                var losViajes = await _rutaService
+                    .GetAssociatedTripsByIdAsync(rutaId);
+
+                return Ok(losViajes);
+            }
+            catch (AppValidationException error)
+            {
+                return BadRequest(error.Message);
+            }
+            catch (EmptyCollectionException error)
+            {
+                return NotFound($"Error de validación: {error.Message}");
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateAsync(Ruta unaRuta)
         {

@@ -32,6 +32,23 @@ namespace BusesEscolares_NOSQL.API.Services
             return unBus;
         }
 
+        public async Task<List<Viaje>> GetAssociatedTripsByIdAsync(string busId)
+        {
+            Bus unBus = await _busRepository
+                .GetByIdAsync(busId);
+
+            if (unBus.Id == string.Empty)
+                throw new EmptyCollectionException($"Bus no encontrado con el Id {busId}");
+
+            var viajesAsociados = await _viajeRepository
+                .GetAssociatedTripsToBusByIdAsync(busId);
+
+            if (viajesAsociados.Count == 0)
+                throw new EmptyCollectionException($"No se encontraron viajes asociados al bus con placa {unBus.Placa}");
+
+            return viajesAsociados;
+        }
+
         public async Task<Bus> CreateAsync(Bus unBus)
         {
             unBus.Placa = unBus.Placa!.Trim();

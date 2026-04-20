@@ -7,7 +7,6 @@
         public string ColeccionBuses { get; set; } = null!;
         public string ColeccionViajes { get; set; } = null!;
         public string ColeccionZonas { get; set; } = null!;
-        public string ColeccionConductores { get; set; } = null!;
 
         public DatabaseSettings(IConfiguration unaConfiguracion)
         {
@@ -17,7 +16,6 @@
             ColeccionBuses = configuracion.GetSection("BusesCollection").Value!;
             ColeccionZonas = configuracion.GetSection("ZonesCollection").Value!;
             ColeccionRutas = configuracion.GetSection("RoutesCollection").Value!;
-            ColeccionConductores = configuracion.GetSection("DriversCollection").Value!;
             ColeccionViajes = configuracion.GetSection("TripsCollection").Value!;
         }
     }

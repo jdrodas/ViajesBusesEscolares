@@ -4,10 +4,8 @@ using System.Text.Json.Serialization;
 
 namespace BusesEscolares_NOSQL.API.Models
 {
-    //TODO: Actualizar el modelo de datos NoSQL en el repo
     public class Ruta
     {
-
         [JsonPropertyName("id")]
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -23,15 +21,13 @@ namespace BusesEscolares_NOSQL.API.Models
         [BsonRepresentation(BsonType.Double)]
         public double? DistanciaKms { get; set; } = 0.0d;
 
-        //TODO: Mapear el atributo zona_id con el documento
         [JsonPropertyName("zona_id")]
         [BsonElement("zona_id")]
-        [BsonRepresentation(BsonType.String)]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string? ZonaId { get; set; } = string.Empty;
 
-        //TODO: Mapear el atributo zona_nombre con el documento
         [JsonPropertyName("zona_nombre")]
-        [BsonElement("zona")]
+        [BsonElement("zona_nombre")]
         [BsonRepresentation(BsonType.String)]
         public string? ZonaNombre { get; set; } = string.Empty;
 
@@ -54,6 +50,7 @@ namespace BusesEscolares_NOSQL.API.Models
                 int hash = 3;
                 hash = hash * 5 + (Id?.GetHashCode() ?? 0);
                 hash = hash * 5 + (Nombre?.GetHashCode() ?? 0);
+                hash = hash * 5 + (ZonaId?.GetHashCode() ?? 0);
                 hash = hash * 5 + (ZonaNombre?.GetHashCode() ?? 0);
                 hash = hash * 5 + DistanciaKms.GetHashCode();
 

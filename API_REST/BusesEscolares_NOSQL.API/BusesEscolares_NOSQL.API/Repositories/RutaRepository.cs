@@ -72,7 +72,8 @@ namespace BusesEscolares_NOSQL.API.Repositories
             var builder = Builders<Ruta>.Filter;
             var filtro = builder.And(
                 builder.Regex(ruta => ruta.Nombre, $"/^{unaRuta.Nombre}$/i"),
-                builder.Regex(ruta => ruta.DistanciaKms, $"/^{unaRuta.DistanciaKms}$/i")
+                builder.Eq(ruta => ruta.DistanciaKms, unaRuta.DistanciaKms),
+                builder.Regex(ruta => ruta.ZonaNombre, $"/^{unaRuta.ZonaNombre}$/i")
                 );
 
             var resultado = await coleccionRutas

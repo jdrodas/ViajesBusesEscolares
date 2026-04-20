@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "69e55dfa8f30b3e166955a6a"
+  },
+  "placa": "BUS-001",
+  "año_fabricacion": 2020
+},
+{
+  "_id": {
+    "$oid": "69e55dfa8f30b3e166955a6b"
+  },
+  "placa": "BUS-002",
+  "año_fabricacion": 2020
+},
+{
+  "_id": {
+    "$oid": "69e55dfa8f30b3e166955a6c"
+  },
+  "placa": "BUS-003",
+  "año_fabricacion": 2022
+},
+{
+  "_id": {
+    "$oid": "69e55dfa8f30b3e166955a6d"
+  },
+  "placa": "BUS-004",
+  "año_fabricacion": 2021
+},
+{
+  "_id": {
+    "$oid": "69e55dfa8f30b3e166955a6e"
+  },
+  "placa": "BUS-005",
+  "año_fabricacion": 2021
+},
+{
+  "_id": {
+    "$oid": "69e55dfa8f30b3e166955a6f"
+  },
+  "placa": "BUS-006",
+  "año_fabricacion": 2021
+},
+{
+  "_id": {
+    "$oid": "69e55dfa8f30b3e166955a70"
+  },
+  "placa": "BUS-007",
+  "año_fabricacion": 2020
+},
+{
+  "_id": {
+    "$oid": "69e55dfa8f30b3e166955a71"
+  },
+  "placa": "BUS-008",
+  "año_fabricacion": 2020
+},
+{
+  "_id": {
+    "$oid": "69e55dfa8f30b3e166955a72"
+  },
+  "placa": "BUS-009",
+  "año_fabricacion": 2023
+},
+{
+  "_id": {
+    "$oid": "69e55dfa8f30b3e166955a73"
+  },
+  "placa": "BUS-010",
+  "año_fabricacion": 2020
+}]

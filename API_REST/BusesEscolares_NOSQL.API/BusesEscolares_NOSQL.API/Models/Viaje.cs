@@ -13,7 +13,7 @@ namespace BusesEscolares_NOSQL.API.Models
 
         [JsonPropertyName("ruta_id")]
         [BsonElement("ruta_id")]
-        [BsonRepresentation(BsonType.String)]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string RutaId { get; set; } = string.Empty;
 
         [JsonPropertyName("ruta_nombre")]
@@ -23,8 +23,8 @@ namespace BusesEscolares_NOSQL.API.Models
 
         [JsonPropertyName("zona_id")]
         [BsonElement("zona_id")]
-        [BsonRepresentation(BsonType.String)]
-        public string zonaId { get; set; } = string.Empty;
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string ZonaId { get; set; } = string.Empty;
 
         [JsonPropertyName("zona_nombre")]
         [BsonElement("zona_nombre")]
@@ -33,7 +33,7 @@ namespace BusesEscolares_NOSQL.API.Models
 
         [JsonPropertyName("bus_id")]
         [BsonElement("bus_id")]
-        [BsonRepresentation(BsonType.String)]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string BusId { get; set; } = string.Empty;
 
         [JsonPropertyName("bus_placa")]
@@ -61,6 +61,11 @@ namespace BusesEscolares_NOSQL.API.Models
         [BsonRepresentation(BsonType.String)]
         public string? FechaLlegada { get; set; } = string.Empty;
 
+        [JsonPropertyName("duracion_minutos")]
+        [BsonElement("duracion_minutos")]
+        [BsonRepresentation(BsonType.Int32)]
+        public int DuracionMinutos { get; set; } = 0;
+
         public override bool Equals(object? obj)
         {
             if (obj == null || GetType() != obj.GetType())
@@ -73,6 +78,7 @@ namespace BusesEscolares_NOSQL.API.Models
                 && BusId!.Equals(otroViaje.BusId)
                 && Turno!.Equals(otroViaje.Turno)
                 && TotalPasajeros == otroViaje.TotalPasajeros
+                && DuracionMinutos == otroViaje.DuracionMinutos
                 && FechaSalida!.Equals(otroViaje.FechaSalida)
                 && FechaLlegada!.Equals(otroViaje.FechaLlegada);
         }
@@ -88,6 +94,7 @@ namespace BusesEscolares_NOSQL.API.Models
                 hash = hash * 5 + (FechaSalida?.GetHashCode() ?? 0);
                 hash = hash * 5 + (FechaLlegada?.GetHashCode() ?? 0);
                 hash = hash * 5 + TotalPasajeros.GetHashCode();
+                hash = hash * 5 + DuracionMinutos.GetHashCode();
 
                 return hash;
             }

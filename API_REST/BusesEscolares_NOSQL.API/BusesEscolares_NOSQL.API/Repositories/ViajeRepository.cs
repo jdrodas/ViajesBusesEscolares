@@ -1,6 +1,7 @@
 ﻿using BusesEscolares_NOSQL.API.DbContexts;
 using BusesEscolares_NOSQL.API.Interfaces;
 using BusesEscolares_NOSQL.API.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace BusesEscolares_NOSQL.API.Repositories

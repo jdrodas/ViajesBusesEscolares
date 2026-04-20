@@ -49,6 +49,26 @@ namespace BusesEscolares_NOSQL.API.Controllers.V1
             }
         }
 
+        [HttpGet("{busId:length(24)}/viajes")]
+        public async Task<IActionResult> GetAssociatedTripsByIdAsync(string busId)
+        {
+            try
+            {
+                var losViajes = await _busService
+                    .GetAssociatedTripsByIdAsync(busId);
+
+                return Ok(losViajes);
+            }
+            catch (AppValidationException error)
+            {
+                return BadRequest(error.Message);
+            }
+            catch (EmptyCollectionException error)
+            {
+                return NotFound($"Error de validación: {error.Message}");
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateAsync(Bus unBus)
         {
@@ -93,15 +113,15 @@ namespace BusesEscolares_NOSQL.API.Controllers.V1
             }
         }
 
-        [HttpDelete("{colorId:length(24)}")]
-        public async Task<IActionResult> RemoveAsync(string colorId)
+        [HttpDelete("{busId:length(24)}")]
+        public async Task<IActionResult> RemoveAsync(string busId)
         {
             try
             {
-                var nombreColorBorrado = await _busService
-                    .RemoveAsync(colorId);
+                var nombreBusEliminado = await _busService
+                    .RemoveAsync(busId);
 
-                return Ok($"El color {nombreColorBorrado} fue eliminado correctamente!");
+                return Ok($"El bus {nombreBusEliminado} fue eliminado correctamente!");
             }
             catch (AppValidationException error)
             {

@@ -15,8 +15,5 @@ namespace BusesEscolares_NOSQL.API.Models
 
         [JsonPropertyName("totalZonas")]
         public long Zonas { get; set; } = 0;
-
-        [JsonPropertyName("totalConductores")]
-        public long conductores { get; set; } = 0;
     }
 }
