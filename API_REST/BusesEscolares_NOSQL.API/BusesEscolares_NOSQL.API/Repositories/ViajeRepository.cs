@@ -1,7 +1,6 @@
 ﻿using BusesEscolares_NOSQL.API.DbContexts;
 using BusesEscolares_NOSQL.API.Interfaces;
 using BusesEscolares_NOSQL.API.Models;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace BusesEscolares_NOSQL.API.Repositories
@@ -57,5 +56,22 @@ namespace BusesEscolares_NOSQL.API.Repositories
 
             return losViajes;
         }
+
+        public async Task<List<Viaje>> GetAssociatedTripsToZoneByIdAsync(string zonaId)
+        {
+            var conexion = contextoDB
+                            .CreateConnection();
+
+            var coleccionViajes = conexion
+                .GetCollection<Viaje>(contextoDB.ConfiguracionColecciones.ColeccionViajes);
+
+            var losViajes = await coleccionViajes
+                .Find(viaje => viaje.ZonaId == zonaId)
+                .SortBy(viaje => viaje.FechaSalida)
+                .ToListAsync();
+
+            return losViajes;
+        }
+
     }
 }

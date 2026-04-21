@@ -32,6 +32,7 @@ builder.Services.AddScoped<IViajeRepository, ViajeRepository>();
 builder.Services.AddScoped<EstadisticaService>();
 builder.Services.AddScoped<BusService>();
 builder.Services.AddScoped<RutaService>();
+builder.Services.AddScoped<ZonaService>();
 
 // Add services to the container.
 builder.Services.AddControllers()

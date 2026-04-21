@@ -76,6 +76,7 @@ namespace BusesEscolares_NOSQL.API.Models
             return Id == otroViaje.Id
                 && RutaId!.Equals(otroViaje.RutaId)
                 && BusId!.Equals(otroViaje.BusId)
+                && ZonaId!.Equals(otroViaje.ZonaId)
                 && Turno!.Equals(otroViaje.Turno)
                 && TotalPasajeros == otroViaje.TotalPasajeros
                 && DuracionMinutos == otroViaje.DuracionMinutos
@@ -90,6 +91,7 @@ namespace BusesEscolares_NOSQL.API.Models
                 hash = hash * 5 + (Id?.GetHashCode() ?? 0);
                 hash = hash * 5 + (RutaId?.GetHashCode() ?? 0);
                 hash = hash * 5 + (BusId?.GetHashCode() ?? 0);
+                hash = hash * 5 + (ZonaId?.GetHashCode() ?? 0);
                 hash = hash * 5 + (Turno?.GetHashCode() ?? 0);
                 hash = hash * 5 + (FechaSalida?.GetHashCode() ?? 0);
                 hash = hash * 5 + (FechaLlegada?.GetHashCode() ?? 0);
