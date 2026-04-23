@@ -97,10 +97,15 @@ namespace BusesEscolares_NOSQL.API.Services
                 .GetByIdAsync(unBus.Id!);
 
             if (busExistente.Id == string.Empty)
-                throw new EmptyCollectionException($"No existe un bus con el Guid {unBus.Id} que se pueda actualizar");
+                throw new EmptyCollectionException($"No existe un bus con el Id {unBus.Id} que se pueda actualizar");
 
             if (busExistente.Equals(unBus))
                 return busExistente;
+
+            bool requiereActualizarViajes = false;
+
+            if (busExistente.Placa != unBus.Placa)
+                requiereActualizarViajes = true;
 
             try
             {
@@ -112,6 +117,15 @@ namespace BusesEscolares_NOSQL.API.Services
 
                 busExistente = await _busRepository
                     .GetByIdAsync(unBus.Id!);
+
+                if (requiereActualizarViajes)
+                {
+                    bool resultadoActualizacionViajes = await _viajeRepository
+                    .UpdateBusDataAsync(unBus);
+
+                    if (!resultadoActualizacionViajes)
+                        throw new AppValidationException("Bus actualizado pero falla en actualización de viajes asociados");
+                }
             }
             catch (DbOperationException)
             {

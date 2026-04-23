@@ -59,6 +59,26 @@ namespace BusesEscolares_NOSQL.API.Repositories
             return unaRuta;
         }
 
+        public async Task<Ruta> GetByNameAsync(string rutaNombre)
+        {
+            Ruta unaRuta = new();
+
+            var conexion = contextoDB
+                .CreateConnection();
+
+            var coleccionRutas = conexion
+                .GetCollection<Ruta>(contextoDB.ConfiguracionColecciones.ColeccionRutas);
+
+            var resultado = await coleccionRutas
+                .Find(ruta => ruta.Nombre == rutaNombre)
+                .FirstOrDefaultAsync();
+
+            if (resultado is not null)
+                unaRuta = resultado;
+
+            return unaRuta;
+        }
+
         public async Task<Ruta> GetByDetailsAsync(Ruta unaRuta)
         {
             Ruta rutaExistente = new();

@@ -7,6 +7,7 @@ namespace BusesEscolares_NOSQL.API.Interfaces
         public Task<List<Bus>> GetAllAsync();
         public Task<long> GetTotalAsync();
         public Task<Bus> GetByIdAsync(string busId);
+        public Task<Bus> GetByLicensePlateAsync(string busPlaca);
         public Task<Bus> GetByDetailsAsync(Bus unBus);
         public Task<bool> CreateAsync(Bus unBus);
         public Task<bool> UpdateAsync(Bus unBus);

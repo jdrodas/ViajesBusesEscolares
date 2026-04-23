@@ -94,10 +94,10 @@ namespace BusesEscolares_NOSQL.API.Controllers.V1
         {
             try
             {
-                var colorActualizado = await _busService
+                var busActualizado = await _busService
                     .UpdateAsync(unBus);
 
-                return Ok(colorActualizado);
+                return Ok(busActualizado);
             }
             catch (AppValidationException error)
             {

@@ -44,6 +44,26 @@ namespace BusesEscolares_NOSQL.API.Repositories
             return unBus;
         }
 
+        public async Task<Bus> GetByLicensePlateAsync(string busPlaca)
+        {
+            Bus unBus = new();
+
+            var conexion = contextoDB
+                .CreateConnection();
+
+            var coleccionBuses = conexion
+                .GetCollection<Bus>(contextoDB.ConfiguracionColecciones.ColeccionBuses);
+
+            var resultado = await coleccionBuses
+                .Find(bus => bus.Placa == busPlaca)
+                .FirstOrDefaultAsync();
+
+            if (resultado is not null)
+                unBus = resultado;
+
+            return unBus;
+        }
+
         public async Task<Bus> GetByDetailsAsync(Bus unBus)
         {
             Bus busExistente = new();

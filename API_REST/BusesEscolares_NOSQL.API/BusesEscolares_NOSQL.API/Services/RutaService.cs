@@ -124,6 +124,12 @@ namespace BusesEscolares_NOSQL.API.Services
             if (rutaExistente.Equals(unaRuta))
                 return rutaExistente;
 
+            bool requiereActualizarViajes = false;
+
+            if (rutaExistente.Nombre != unaRuta.Nombre ||
+                rutaExistente.ZonaNombre != unaRuta.ZonaNombre)
+                requiereActualizarViajes = true;
+
             try
             {
                 bool resultadoAccion = await _rutaRepository
@@ -134,6 +140,15 @@ namespace BusesEscolares_NOSQL.API.Services
 
                 rutaExistente = await _rutaRepository
                     .GetByIdAsync(unaRuta.Id!);
+
+                if (requiereActualizarViajes)
+                {
+                    bool resultadoActualizacionViajes = await _viajeRepository
+                                    .UpdateRouteDataAsync(unaRuta);
+
+                    if (!resultadoActualizacionViajes)
+                        throw new AppValidationException("Ruta actualizada pero falla en actualización de viajes asociados");
+                }                
             }
             catch (DbOperationException)
             {

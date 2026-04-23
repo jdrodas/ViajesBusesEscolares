@@ -2,6 +2,7 @@
 using BusesEscolares_NOSQL.API.Interfaces;
 using BusesEscolares_NOSQL.API.Models;
 using MongoDB.Driver;
+using static System.Net.WebRequestMethods;
 
 namespace BusesEscolares_NOSQL.API.Repositories
 {
@@ -24,6 +25,8 @@ namespace BusesEscolares_NOSQL.API.Repositories
 
             return losViajes;
         }
+
+        //TODO: Implementar GetByDetailsAsync
 
         public async Task<List<Viaje>> GetAssociatedTripsToBusByIdAsync(string busId)
         {
@@ -105,6 +108,63 @@ namespace BusesEscolares_NOSQL.API.Repositories
                 .EstimatedDocumentCountAsync();
 
             return totalViajes;
+        }
+
+        public async Task<bool> UpdateBusDataAsync(Bus unBus)
+        {
+            bool resultadoAccion = false;
+
+            var conexion = contextoDB
+                .CreateConnection();
+
+            var coleccionViajes = conexion
+                .GetCollection<Viaje>(contextoDB.ConfiguracionColecciones.ColeccionViajes);
+
+            var filtro = Builders<Viaje>.Filter
+                .Eq(viaje => viaje.BusId, unBus.Id);
+            
+            var sentenciaActualizacion = Builders<Viaje>.Update
+                .Set(viaje => viaje.BusPlaca, unBus.Placa);
+
+            var resultado = await coleccionViajes
+                .UpdateManyAsync(filtro, sentenciaActualizacion);
+            
+            if (resultado.IsAcknowledged)
+                resultadoAccion = true;
+
+            return resultadoAccion;
+        }
+
+        public async Task<bool> UpdateRouteDataAsync(Ruta unaRuta)
+        {
+            bool resultadoAccion = false;
+
+            var conexion = contextoDB
+                .CreateConnection();
+
+            var coleccionViajes = conexion
+                .GetCollection<Viaje>(contextoDB.ConfiguracionColecciones.ColeccionViajes);
+
+            var filtro = Builders<Viaje>.Filter
+                .Eq(viaje => viaje.RutaId, unaRuta.Id);
+
+            var definicionesActualizacion = new List<UpdateDefinition<Viaje>>
+            {
+                Builders<Viaje>.Update.Set(viaje => viaje.RutaNombre, unaRuta.Nombre),
+                Builders<Viaje>.Update.Set(viaje => viaje.ZonaId, unaRuta.ZonaId),
+                Builders<Viaje>.Update.Set(viaje => viaje.ZonaNombre, unaRuta.ZonaNombre)
+            };
+
+            var sentenciaActualizacion = Builders<Viaje>.Update
+                .Combine(definicionesActualizacion);
+
+            var resultado = await coleccionViajes
+                .UpdateManyAsync(filtro, sentenciaActualizacion);
+
+            if (resultado.IsAcknowledged)
+                resultadoAccion = true;
+
+            return resultadoAccion;
         }
     }
 }
