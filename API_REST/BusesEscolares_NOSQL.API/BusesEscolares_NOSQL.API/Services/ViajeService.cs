@@ -1,7 +1,6 @@
 ﻿using BusesEscolares_NOSQL.API.Exceptions;
 using BusesEscolares_NOSQL.API.Interfaces;
 using BusesEscolares_NOSQL.API.Models;
-using BusesEscolares_NOSQL.API.Repositories;
 using System.Globalization;
 
 namespace BusesEscolares_NOSQL.API.Services
@@ -16,6 +15,7 @@ namespace BusesEscolares_NOSQL.API.Services
         private readonly IRutaRepository _rutaRepository = rutaRepository;
         private readonly IBusRepository _busRepository = busRepository;
 
+        //TODO: EL método GetAllAsync debe tener paginación
         public async Task<List<Viaje>> GetAllAsync()
         {
             var losViajes = await _viajeRepository
@@ -49,7 +49,7 @@ namespace BusesEscolares_NOSQL.API.Services
                 .GetByNameAsync(unViaje.ZonaNombre!);
 
             if (zonaExistente.Id == string.Empty)
-                throw new EmptyCollectionException($"Zona para la ruta no encontrada con el nombre {unaRuta.ZonaNombre}");
+                throw new EmptyCollectionException($"Zona para la ruta no encontrada con el nombre {unViaje.ZonaNombre}");
 
             unViaje.ZonaId = zonaExistente.Id!;
             unViaje.ZonaNombre = zonaExistente.Nombre;
@@ -72,7 +72,13 @@ namespace BusesEscolares_NOSQL.API.Services
             unViaje.BusId = busExistente.Id!;
             unViaje.BusPlaca = busExistente.Placa;
 
-            //TODO: Validar que no exista un viaje con estos datos.
+            var viajeExistente = await _viajeRepository
+                .GetByDetailsAsync(unViaje);
+
+            if (viajeExistente.BusId == unViaje.BusId &&
+                viajeExistente.RutaId == unViaje.RutaId &&
+                viajeExistente.FechaSalida == unViaje.FechaSalida)
+                return viajeExistente;
 
             try
             {
@@ -82,15 +88,45 @@ namespace BusesEscolares_NOSQL.API.Services
                 if (!resultadoAccion)
                     throw new AppValidationException("Operación ejecutada pero no generó cambios en la DB");
 
-                var viajeExistente = await _viajeRepository
-                .GetByDetailsAsync(unaRuta);
+                viajeExistente = await _viajeRepository
+                .GetByDetailsAsync(unViaje);
             }
             catch (DbOperationException)
             {
                 throw;
             }
 
-            return rutaExistente;
+            return viajeExistente;
+        }
+
+        //TODO: Implementar método UpdateAsync
+
+        public async Task<string> RemoveAsync(string viajeId)
+        {
+            Viaje unViaje = await _viajeRepository
+                .GetByIdAsync(viajeId);
+
+            if (unViaje.Id == string.Empty)
+                throw new EmptyCollectionException($"Viaje no encontrado con el id {viajeId}");
+
+            string nombreViajeEliminado = $"Bus {unViaje.BusPlaca} " +
+                $"en la ruta {unViaje.RutaNombre} " +
+                $"en la fecha {unViaje.FechaSalida}";
+
+            try
+            {
+                bool resultadoAccion = await _viajeRepository
+                    .RemoveAsync(viajeId);
+
+                if (!resultadoAccion)
+                    throw new DbOperationException("Operación ejecutada pero no generó cambios en la DB");
+            }
+            catch (DbOperationException)
+            {
+                throw;
+            }
+
+            return nombreViajeEliminado;
         }
 
         private static string EvaluateTripDetailsAsync(Viaje unViaje)
@@ -120,33 +156,35 @@ namespace BusesEscolares_NOSQL.API.Services
             if (string.IsNullOrEmpty(unViaje.BusPlaca)) 
                 return "No se puede insertar un viaje con placa de bus nula";
 
+            if (unViaje.Turno != "AM" && unViaje.Turno != "PM")
+                return "No se puede insertar un viaje con turno distinto de AM/PM";
+
             if (unViaje.TotalPasajeros <= 0)
                 return "Los viajes deben tener una cantidad de pasajeros positiva";
 
             bool fechaValida = DateTime
                             .TryParseExact(
-                                unViaje.FechaSalida, "yyyy-MM-dd HH:mm:ss",
+                                unViaje.FechaSalida, "dd-MM-yyyy HH:mm:ss.sss",
                                 CultureInfo.InvariantCulture, DateTimeStyles.None,
                                 out DateTime fechaSalidaValidada);
 
             if (!fechaValida)
-                throw new AppValidationException($"La fecha suministrada {unViaje.FechaSalida} no tiene el formato yyyy-MM-dd HH:mm:ss");
+                throw new AppValidationException($"La fecha suministrada {unViaje.FechaSalida} no tiene el formato dd-MM-yyyy HH:mm:ss.sss");
 
             fechaValida = DateTime
                             .TryParseExact(
-                                unViaje.FechaLlegada, "yyyy-MM-dd HH:mm:ss",
+                                unViaje.FechaLlegada, "dd-MM-yyyy HH:mm:ss.sss",
                                 CultureInfo.InvariantCulture, DateTimeStyles.None,
                                 out DateTime fechaLlegadValidada);
 
             if (!fechaValida)
-                throw new AppValidationException($"La fecha suministrada {unViaje.FechaSalida} no tiene el formato yyyy-MM-dd HH:mm:ss");
+                throw new AppValidationException($"La fecha suministrada {unViaje.FechaSalida} no tiene el formato dd-MM-yyyy HH:mm:ss.sss");
 
             if(fechaLlegadValidada < fechaSalidaValidada)
                 throw new AppValidationException($"Las fechas suministradas no delimitan un lapso. Fecha llegada debe ser mayor que Fecha Salida");
 
             var duracion_minutos = fechaLlegadValidada - fechaSalidaValidada;
-
-            unViaje.DuracionMinutos = duracion_minutos.Minutes;
+            unViaje.DuracionMinutos = (int)Math.Round(duracion_minutos.TotalMinutes);
 
             return string.Empty;
         }

@@ -13,6 +13,7 @@ namespace BusesEscolares_NOSQL.API.Controllers.V1
     {
         private readonly ViajeService _viajeService = viajeService;
 
+        //TODO: El método GetAllAsync debe tener paginación
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
@@ -70,6 +71,32 @@ namespace BusesEscolares_NOSQL.API.Controllers.V1
             catch (EmptyCollectionException error)
             {
                 return NotFound($"Error de validación: {error.Message}");
+            }
+        }
+
+        //TODO: Crear endPoint para la actualización de viaje
+
+        [HttpDelete("{viajeId:length(24)}")]
+        public async Task<IActionResult> RemoveAsync(string viajeId)
+        {
+            try
+            {
+                var nombreViajeBorrado = await _viajeService
+                    .RemoveAsync(viajeId);
+
+                return Ok($"El viaje {nombreViajeBorrado} fue eliminado correctamente!");
+            }
+            catch (AppValidationException error)
+            {
+                return BadRequest($"Error de validación: {error.Message}");
+            }
+            catch (EmptyCollectionException error)
+            {
+                return NotFound($"Error de validación: {error.Message}");
+            }
+            catch (DbOperationException error)
+            {
+                return BadRequest($"Error de operacion en DB: {error.Message}");
             }
         }
     }

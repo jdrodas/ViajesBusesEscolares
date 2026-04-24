@@ -26,7 +26,32 @@ namespace BusesEscolares_NOSQL.API.Repositories
             return losViajes;
         }
 
-        //TODO: Implementar GetByDetailsAsync
+        public async Task<Viaje> GetByDetailsAsync(Viaje unViaje)
+        {
+            Viaje viajeExistente = new();
+
+            var conexion = contextoDB
+                .CreateConnection();
+
+            var coleccionViajes = conexion
+                .GetCollection<Viaje>(contextoDB.ConfiguracionColecciones.ColeccionViajes);
+
+            var builder = Builders<Viaje>.Filter;
+            var filtro = builder.And(
+                builder.Eq(viaje => viaje.BusId, unViaje.BusId),
+                builder.Eq(viaje => viaje.RutaId, unViaje.RutaId),
+                builder.Regex(viaje => viaje.FechaSalida, $"/^{unViaje.FechaSalida}$/i")
+                );
+
+            var resultado = await coleccionViajes
+                .Find(filtro)
+                .FirstOrDefaultAsync();
+
+            if (resultado is not null)
+                viajeExistente = resultado;
+
+            return viajeExistente;
+        }
 
         public async Task<List<Viaje>> GetAssociatedTripsToBusByIdAsync(string busId)
         {
@@ -160,6 +185,46 @@ namespace BusesEscolares_NOSQL.API.Repositories
 
             var resultado = await coleccionViajes
                 .UpdateManyAsync(filtro, sentenciaActualizacion);
+
+            if (resultado.IsAcknowledged)
+                resultadoAccion = true;
+
+            return resultadoAccion;
+        }
+
+        public async Task<bool> CreateAsync(Viaje unViaje)
+        {
+            bool resultadoAccion = false;
+
+            var conexion = contextoDB
+                .CreateConnection();
+
+            var coleccionViajes = conexion
+                .GetCollection<Viaje>(contextoDB.ConfiguracionColecciones.ColeccionViajes);
+
+            await coleccionViajes
+                .InsertOneAsync(unViaje);
+
+            var resultado = await GetByDetailsAsync(unViaje);
+
+            if (resultado is not null)
+                resultadoAccion = true;
+
+            return resultadoAccion;
+        }
+
+        public async Task<bool> RemoveAsync(string viajeId)
+        {
+            bool resultadoAccion = false;
+
+            var conexion = contextoDB
+                .CreateConnection();
+
+            var coleccionViajes = conexion
+                .GetCollection<Viaje>(contextoDB.ConfiguracionColecciones.ColeccionViajes);
+
+            var resultado = await coleccionViajes
+                .DeleteOneAsync(viaje=> viaje.Id == viajeId);
 
             if (resultado.IsAcknowledged)
                 resultadoAccion = true;
